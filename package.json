@@ -1,0 +1,65 @@
+{
+  "name": "pattern-highlighter",
+  "displayName": "Pattern Highlighter",
+  "description": "Highlights predefined text patterns from a JSON file.",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onDidChangeActiveTextEditor",
+    "onDidChangeTextDocument"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.highlightPatterns",
+        "title": "Highlight Patterns"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Pattern Highlighter",
+      "properties": {
+        "patternHighlighter.patternsJsonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the JSON file containing patterns."
+        },
+        "patternHighlighter.highlightColor": {
+          "type": "string",
+          "default": "rgba(0, 0, 255, 1)",
+          "description": "Background color for text decoration."
+        },
+        "patternHighlighter.highlightTextColor": {
+          "type": "string",
+          "default": "rgba(255, 255, 255, 0.7)",
+          "description": "Text color for text decoration."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.16.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
+  }    
+}

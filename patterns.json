@@ -1,0 +1,51 @@
+{
+  "sets": [
+    {
+      "name": "Default",
+      "patterns": [
+        {
+          "pattern": "TODO",
+          "description": "This is a todo item"
+        },
+        {
+          "pattern": "FIXME",
+          "description": "This is a fixme item"
+        },
+        {
+          "pattern": "TEST1",
+          "description": "This is a fixme item"
+        },
+        {
+          "pattern": "TEST2",
+          "description": "This is a fixme item"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "patterns": [
+        {
+          "pattern": "TEST1",
+          "description": "This is a fixme item"
+        },
+        {
+          "pattern": "TEST2",
+          "description": "This is a fixme item"
+        }
+      ]
+    },
+    {
+      "name": "Custom",
+      "patterns": [
+        {
+          "pattern": "NOTE",
+          "description": "This is a note"
+        },
+        {
+          "pattern": "DEBUG",
+          "description": "This is a debug statement"
+        }
+      ]
+    }
+  ]
+}
