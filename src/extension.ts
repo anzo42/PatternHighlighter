@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { CONFIG, IJsonData, IPattern } from './config';
+import { CONFIG, IPatternSet } from './config';
 import { PatternService } from './services/PatternService';
 import { DecorationService } from './services/DecorationService';
 import { PatternCodeLensProvider } from './providers/PatternCodeLensProvider';
@@ -19,7 +19,7 @@ export const activate = async (context: vscode.ExtensionContext): Promise<void> 
   decoration = createDecoration();
 
   let activeEditor = vscode.window.activeTextEditor;
-  let selectedPatterns: IPattern[] = [];
+  let selectedPatternSets: IPatternSet[] = [];
   const codeLensProvider = new PatternCodeLensProvider();
 
   const highlightCommand = vscode.commands.registerCommand('extension.highlightPatterns', async () => {
@@ -27,37 +27,33 @@ export const activate = async (context: vscode.ExtensionContext): Promise<void> 
     const selectedSet = await vscode.window.showQuickPick(options, { placeHolder: 'Select a pattern set to highlight' });
 
     if (selectedSet === 'Clear Highlights') {
-      selectedPatterns = [];
+      selectedPatternSets = [];
       activeEditor?.setDecorations(decoration, []);
-      codeLensProvider.setPatterns([]);
+      codeLensProvider.setPatternSets([]);
       return;
     }
 
-    selectedPatterns = selectedSet === 'All'
-      ? jsonData.sets.flatMap(set => set.patterns)
-      : jsonData.sets.find(set => set.name === selectedSet)?.patterns ?? [];
+    selectedPatternSets = selectedSet === 'All'
+      ? jsonData.sets
+      : jsonData.sets.filter(set => set.name === selectedSet);
 
     if (activeEditor) {
-      DecorationService.updateDecorations(activeEditor, selectedPatterns, decoration);
+      DecorationService.updateDecorations(activeEditor, selectedPatternSets, decoration);
     }
-    codeLensProvider.setPatterns(selectedPatterns);
+    codeLensProvider.setPatternSets(selectedPatternSets);
   });
-
-  const refreshJsonData = async () => {
-    jsonData = await PatternService.readOrCreatePatternsFile(context);
-  };
 
   vscode.window.onDidChangeActiveTextEditor(editor => {
     activeEditor = editor;
     if (editor) {
-      DecorationService.updateDecorations(editor, selectedPatterns, decoration);
+      DecorationService.updateDecorations(editor, selectedPatternSets, decoration);
     }
   });
 
   vscode.workspace.onDidChangeTextDocument(event => {
     if (activeEditor && event.document === activeEditor.document) {
-      DecorationService.updateDecorations(activeEditor, selectedPatterns, decoration);
-      codeLensProvider.setPatterns(selectedPatterns); // Ensure CodeLens is updated on document change
+      DecorationService.updateDecorations(activeEditor, selectedPatternSets, decoration);
+      codeLensProvider.setPatternSets(selectedPatternSets); // Ensure CodeLens is updated on document change
     }
   });
 
@@ -69,16 +65,18 @@ export const activate = async (context: vscode.ExtensionContext): Promise<void> 
       decoration.dispose();
       decoration = createDecoration();
 
-      await refreshJsonData();
+      jsonData = await PatternService.readOrCreatePatternsFile(context);
 
       if (activeEditor) {
-        DecorationService.updateDecorations(activeEditor, selectedPatterns, decoration);
+        DecorationService.updateDecorations(activeEditor, selectedPatternSets, decoration);
       }
     }
   });
 
   context.subscriptions.push(highlightCommand);
-  context.subscriptions.push(vscode.languages.registerCodeLensProvider([{ scheme: 'file', language: '*' }, { scheme: 'untitled', language: '*' }], codeLensProvider));
+  context.subscriptions.push(
+    vscode.languages.registerCodeLensProvider([{ scheme: 'file', language: '*' }, { scheme: 'untitled', language: '*' }], codeLensProvider)
+  );
 };
 
-export const deactivate = (): void => { };
+export const deactivate = (): void => {};
