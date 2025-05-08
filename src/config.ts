@@ -5,7 +5,11 @@ export const CONFIG = {
   DEFAULT_HIGHLIGHT_TEXT_COLOR: 'rgba(255, 255, 255, 0.7)',
   PATTERNS_JSON_PATH_KEY: 'patternsJsonPath',
   HIGHLIGHT_COLOR_KEY: 'highlightColor',
-  HIGHLIGHT_TEXT_COLOR_KEY: 'highlightTextColor'
+  HIGHLIGHT_TEXT_COLOR_KEY: 'highlightTextColor',
+  PATTERN_ISOLATION_PREFIX_KEY: 'patternIsolationPrefix',
+  PATTERN_ISOLATION_POSTFIX_KEY: 'patternIsolationPostfix',
+  DEFAULT_PATTERN_ISOLATION_PREFIX: '(?<=[\\t\\s\'"\\(\\[\\{])',
+  DEFAULT_PATTERN_ISOLATION_POSTFIX: '(?=[\\t\\s\'"\\)\\]\\}])'
 };
 
 export const defaultPatterns: IJsonData = {

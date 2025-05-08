@@ -5,13 +5,15 @@ export class DecorationService {
   public static updateDecorations(
     editor: vscode.TextEditor,
     patternSets: IPatternSet[],
-    decorationType: vscode.TextEditorDecorationType
+    decorationType: vscode.TextEditorDecorationType,
+    patternIsolationPrefix: string,
+    patternIsolationPostfix: string
   ): void {
     const text = editor.document.getText();
     const decorationOptions = patternSets.flatMap(({ patternPrefix, patternPostfix, patterns }) =>
       patterns.flatMap(({ pattern, description }) => {
-        const regexPattern = `${patternPrefix}${pattern}${patternPostfix}`;
-        const regex = new RegExp(regexPattern, 'g');
+        const regexPattern = `${patternIsolationPrefix}${patternPrefix}${pattern}${patternPostfix}${patternIsolationPostfix}`;
+        const regex = new RegExp(regexPattern, 'gi');
         const matches: vscode.DecorationOptions[] = [];
         let match: RegExpExecArray | null;
         while ((match = regex.exec(text))) {

@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/anzo42/PatternHighlighter"
   },
-  "version": "1.2.0",
+  "version": "1.3.0",
   "engines": {
     "vscode": "^1.96.0"
   },
@@ -43,6 +43,16 @@
           "type": "string",
           "default": "rgba(255, 255, 255, 0.7)",
           "description": "Text color for text decoration."
+        },
+        "patternHighlighter.patternIsolationPrefix": {
+          "type": "string",
+          "default": "(?<=[\\t\\s'\"\\(\\[\\{])",
+          "description": "The pattern used to isolate patterns during matching."
+        },
+        "patternHighlighter.patternIsolationPostfix": {
+          "type": "string",
+          "default": "(?=[\\t\\s'\"\\)\\]\\}])",
+          "description": "The pattern used to isolate patterns during matching."
         }
       }
     }
