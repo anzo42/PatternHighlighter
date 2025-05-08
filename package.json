@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/anzo42/PatternHighlighter"
   },
-  "version": "1.1.0",
+  "version": "1.2.0",
   "engines": {
     "vscode": "^1.96.0"
   },

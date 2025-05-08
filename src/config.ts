@@ -12,6 +12,8 @@ export const defaultPatterns: IJsonData = {
   sets: [
     {
       name: "Default",
+      patternPrefix: "",
+      patternPostfix: "",
       patterns: [
         { pattern: "TODO", description: "This is a todo item" },
         { pattern: "FIXME", description: "This is a fixme item" }
@@ -19,6 +21,8 @@ export const defaultPatterns: IJsonData = {
     },
     {
       name: "Custom",
+      patternPrefix: "",
+      patternPostfix: "",
       patterns: [
         { pattern: "NOTE", description: "This is a note" },
         { pattern: "DEBUG", description: "This is a debug statement" }
@@ -34,6 +38,8 @@ export interface IPattern {
 
 export interface IPatternSet {
   name: string;
+  patternPrefix: string;
+  patternPostfix: string;
   patterns: IPattern[];
 }
 
